@@ -1,11 +1,15 @@
-import { useEffect, useState } from "react";
-import { useParams, Link, Outlet, useNavigate } from "react-router-dom";
-import { fetchMovieDetails, IMAGE_URL } from "../../components/services/api";
+import { useState, useEffect } from "react";
+import { useParams, useNavigate, Routes, Route } from "react-router-dom";
+import { fetchMovieDetails } from "../../components/services/api";
+import MovieCast from "../../components/MovieCast/MovieCast";
+import MovieReviews from "../../components/MovieReviews/MovieReviews";
+import CustomNavLink from "../../components/NavLink/NavLink";
+import s from "./MovieDetailsPage.module.css";
 
-const MovieDetailsPage = () => {
+function MovieDetailsPage() {
   const { movieId } = useParams();
-  const [movie, setMovie] = useState(null);
   const navigate = useNavigate();
+  const [movie, setMovie] = useState(null);
 
   useEffect(() => {
     fetchMovieDetails(movieId).then(setMovie);
@@ -14,16 +18,35 @@ const MovieDetailsPage = () => {
   if (!movie) return <p>Loading...</p>;
 
   return (
-    <div>
-      <button onClick={() => navigate(-1)}>Go back</button>
+    <div className={s.movieDetails}>
+      <button className={s.goBack} onClick={() => navigate("/")}>
+        Go back
+      </button>
       <h1>{movie.title}</h1>
-      <img src={`${IMAGE_URL}${movie.poster_path}`} alt={movie.title} />
-      <p>{movie.overview}</p>
-      <Link to="cast">Cast</Link>
-      <Link to="reviews">Reviews</Link>
-      <Outlet />
+      <img
+        className={s.poster}
+        src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+        alt={movie.title}
+      />
+      <div className={s.details}>
+        <p className={s.overview}>{movie.overview}</p>
+        <ul>
+          <nav className={s.links}>
+            <CustomNavLink className={s.link} to={`/movies/${movieId}/cast`}>
+              Cast
+            </CustomNavLink>
+            <CustomNavLink className={s.link} to={`/movies/${movieId}/reviews`}>
+              Reviews
+            </CustomNavLink>
+          </nav>
+        </ul>
+        <Routes>
+          <Route path="cast" element={<MovieCast movieId={movieId} />} />
+          <Route path="reviews" element={<MovieReviews movieId={movieId} />} />
+        </Routes>
+      </div>
     </div>
   );
-};
+}
 
 export default MovieDetailsPage;

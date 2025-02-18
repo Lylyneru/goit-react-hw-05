@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { fetchMovieReviews } from "../../components/services/api";
+import { useState, useEffect } from "react";
+import { fetchMovieReviews } from "../services/api";
 
-const MovieReviews = () => {
-  const { movieId } = useParams();
+function MovieReviews({ movieId }) {
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
@@ -12,13 +10,13 @@ const MovieReviews = () => {
 
   return (
     <ul>
-      {reviews.length ? (
-        reviews.map((review) => <li key={review.id}>{review.content}</li>)
-      ) : (
-        <p>No reviews</p>
-      )}
+      {reviews.map((review) => (
+        <li key={review.id}>
+          <strong>{review.author}:</strong> {review.content}
+        </li>
+      ))}
     </ul>
   );
-};
+}
 
 export default MovieReviews;

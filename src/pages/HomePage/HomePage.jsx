@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { fetchTrendingMovies } from "../../components/services/api";
-import MovieList from "../../pages/HomePage/HomePage";
-import s from "./HomePage.module.css";
 
-const HomePage = () => {
+function HomePage() {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
@@ -11,22 +10,17 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className={s.container}>
-      <nav className={s.navbar}>
-        <a href="/" className={s.navlink}>
-          Home
-        </a>
-        <a href="/movies" className={s.navlink}>
-          Movies
-        </a>
-      </nav>
-
-      <input type="text" placeholder="Search" className={s.searchbar} />
-
+    <div>
       <h1>Trending Movies</h1>
-      <MovieList movies={movies} />
+      <ul>
+        {movies.map((movie) => (
+          <li key={movie.id}>
+            <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
+          </li>
+        ))}
+      </ul>
     </div>
   );
-};
+}
 
 export default HomePage;

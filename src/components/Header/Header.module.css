@@ -1,12 +1,30 @@
+.header {
+  position: fixed; /* Фіксує шапку нагорі */
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Вирівнює назву та навігацію */
+  background-color: white;
+  padding: 15px 20px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Додає тінь для виділення */
+  z-index: 1000;
+  height: 50px; /* Впевнись, що Header має фіксовану висоту */
+}
+
 .link {
-  color: white;
+  color: rgb(17, 3, 3);
   font-size: 26px;
   text-decoration: none;
 }
 .nav {
   display: flex;
   gap: 20px;
+  font-size: 18px;
+  font-weight: bold;
 }
+
 .active {
   color: red;
   text-decoration: underline;

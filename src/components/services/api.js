@@ -1,49 +1,76 @@
 import axios from "axios";
 
-const API_KEY =
-  "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjZjY0YzY2MzcyNzc5NWI5OTQzMWZkNWE0NTkxOWQ5MCIsIm5iZiI6MTczOTE5MTI1Ny45MTM5OTk4LCJzdWIiOiI2N2E5ZjNkOWIwMTE1M2Q2ZjQ5MzdjZjIiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.KIDT7u0v41p579vs3H7elafYmHfUbYMQemrPXVZGbZ0";
 const BASE_URL = "https://api.themoviedb.org/3";
-const IMAGE_URL = "https://image.tmdb.org/t/p/w500";
+const BEARER_TOKEN =
+  "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjZjY0YzY2MzcyNzc5NWI5OTQzMWZkNWE0NTkxOWQ5MCIsIm5iZiI6MTczOTE5MTI1Ny45MTM5OTk4LCJzdWIiOiI2N2E5ZjNkOWIwMTE1M2Q2ZjQ5MzdjZjIiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.KIDT7u0v41p579vs3H7elafYmHfUbYMQemrPXVZGbZ0";
 
-const options = {
-  headers: {
-    Authorization: `Bearer ${API_KEY}`,
-  },
-};
+axios.defaults.baseURL = BASE_URL;
+axios.defaults.headers.common["Authorization"] = `Bearer ${BEARER_TOKEN}`;
+axios.defaults.headers.common["Accept"] = "application/json";
 
-export const fetchTrendingMovies = async () => {
-  const response = await axios.get(`${BASE_URL}/trending/movie/day`, options);
-  return response.data.results;
-};
+/**
+ * Отримання популярних фільмів
+ */
+export async function fetchTrendingMovies() {
+  try {
+    const { data } = await axios.get("/trending/movie/day");
+    return data.results;
+  } catch (error) {
+    console.error("Помилка при завантаженні трендових фільмів:", error);
+    throw error;
+  }
+}
 
-export const searchMovies = async (query) => {
-  const response = await axios.get(
-    `${BASE_URL}/search/movie?query=${query}&include_adult=false&language=en-US&page=1`,
-    options
-  );
-  return response.data.results;
-};
+/**
+ * Пошук фільмів за запитом
+ */
+export async function fetchMoviesByQuery(query) {
+  try {
+    const { data } = await axios.get("/search/movie", {
+      params: { query },
+    });
+    return data.results;
+  } catch (error) {
+    console.error("Помилка при пошуку фільмів:", error);
+    throw error;
+  }
+}
 
-export const fetchMovieDetails = async (movieId) => {
-  const response = await axios.get(`${BASE_URL}/movie/${movieId}`, options);
-  return response.data;
-};
+/**
+ * Детальна інформація про фільм
+ */
+export async function fetchMovieDetails(movieId) {
+  try {
+    const { data } = await axios.get(`/movie/${movieId}`);
+    return data;
+  } catch (error) {
+    console.error("Помилка при завантаженні деталей фільму:", error);
+    throw error;
+  }
+}
 
-export const fetchMovieCast = async (movieId) => {
-  const response = await axios.get(
-    `${BASE_URL}/movie/${movieId}/credits`,
-    options
-  );
-  return response.data.cast;
-};
+/**
+ * Акторський склад фільму
+ */
+export async function fetchMovieCast(movieId) {
+  try {
+    const { data } = await axios.get(`/movie/${movieId}/credits`);
+    return data.cast;
+  } catch (error) {
+    console.error("Помилка при завантаженні акторського складу:", error);
+    throw error;
+  }
+}
 
-export const fetchMovieReviews = async (movieId) => {
-  const response = await axios.get(
-    `${BASE_URL}/movie/${movieId}/reviews`,
-    options
-  );
-  return response.data.results;
-};
-
-export { IMAGE_URL };
-export default API_KEY;
+/**
+ * Відгуки про фільм
+ */
+export async function fetchMovieReviews(movieId) {
+  try {
+    const { data } = await axios.get(`/movie/${movieId}/reviews`);
+    return data.results;
+  } catch (error) {
+    console.error("Помилка при завантаженні рецензій:", error);
+    throw error;
+  }
+}

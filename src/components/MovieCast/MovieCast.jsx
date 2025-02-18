@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { fetchMovieCast } from "../../components/services/api";
+import { useState, useEffect } from "react";
+import { fetchMovieCast } from "../services/api";
 
-const MovieCast = () => {
-  const { movieId } = useParams();
+function MovieCast({ movieId }) {
   const [cast, setCast] = useState([]);
 
   useEffect(() => {
@@ -13,10 +11,11 @@ const MovieCast = () => {
   return (
     <ul>
       {cast.map((actor) => (
-        <li key={actor.id}>{actor.name}</li>
+        <li key={actor.id}>
+          {actor.name} as {actor.character}
+        </li>
       ))}
     </ul>
   );
-};
-
+}
 export default MovieCast;

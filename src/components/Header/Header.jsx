@@ -6,8 +6,7 @@ const buildLinkClass = ({ isActive }) => {
 };
 const Header = () => {
   return (
-    <header>
-      <h2>Router</h2>
+    <header className={s.header}>
       <nav className={s.nav}>
         <NavLink
           className={({ isActive }) => clsx(s.link, isActive && s.active)}
