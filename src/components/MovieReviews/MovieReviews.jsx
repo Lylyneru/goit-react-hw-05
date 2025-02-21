@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { fetchMovieReviews } from "../services/api";
 
-function MovieReviews({ movieId }) {
+function MovieReviews() {
+  const { movieId } = useParams();
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {

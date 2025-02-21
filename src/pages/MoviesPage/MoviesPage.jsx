@@ -3,6 +3,7 @@ import { Formik, Form, Field } from "formik";
 import { useSearchParams } from "react-router-dom";
 import { fetchMoviesByQuery } from "../../components/services/api";
 import s from "./MoviesPage.module.css";
+import MovieList from "../../components/MovieList/MovieList";
 
 function MoviesPage() {
   const [movies, setMovies] = useState([]);
@@ -18,7 +19,7 @@ function MoviesPage() {
     }
 
     fetchMovies();
-  }, [query]); // Виконувати при зміні query
+  }, [query, setMovies]); // Виконувати при зміні query
 
   const handleSearch = (values) => {
     if (!values.query.trim()) return;
@@ -41,14 +42,7 @@ function MoviesPage() {
           </button>
         </Form>
       </Formik>
-
-      <ul>
-        {movies.map((movie) => (
-          <li key={movie.id}>
-            <a href={`/movies/${movie.id}`}>{movie.title}</a>
-          </li>
-        ))}
-      </ul>
+      <MovieList movies={movies} />
     </div>
   );
 }

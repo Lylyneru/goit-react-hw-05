@@ -1,5 +1,11 @@
-import { useState, useEffect } from "react";
-import { useParams, useNavigate, Routes, Route } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import {
+  useParams,
+  useNavigate,
+  useLocation,
+  Routes,
+  Route,
+} from "react-router-dom";
 import { fetchMovieDetails } from "../../components/services/api";
 import MovieCast from "../../components/MovieCast/MovieCast";
 import MovieReviews from "../../components/MovieReviews/MovieReviews";
@@ -9,7 +15,9 @@ import s from "./MovieDetailsPage.module.css";
 function MovieDetailsPage() {
   const { movieId } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const [movie, setMovie] = useState(null);
+  const prevLocationRef = useRef(location.state?.from ?? "/movies");
 
   useEffect(() => {
     fetchMovieDetails(movieId).then(setMovie);
@@ -19,7 +27,10 @@ function MovieDetailsPage() {
 
   return (
     <div className={s.movieDetails}>
-      <button className={s.goBack} onClick={() => navigate("/")}>
+      <button
+        className={s.goBack}
+        onClick={() => navigate(prevLocationRef.current)}
+      >
         Go back
       </button>
       <h1>{movie.title}</h1>

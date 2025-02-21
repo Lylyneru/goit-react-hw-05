@@ -7,7 +7,7 @@
   padding-top: 60px;
 }
 .goBack {
-  display: flex;
+  display: block;
   margin-top: 5px;
   width: 120px;
   text-decoration: none;
