@@ -1,14 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import {
-  useParams,
-  useNavigate,
-  useLocation,
-  Routes,
-  Route,
-} from "react-router-dom";
+import { useParams, useNavigate, useLocation, Outlet } from "react-router-dom";
 import { fetchMovieDetails } from "../../components/services/api";
-import MovieCast from "../../components/MovieCast/MovieCast";
-import MovieReviews from "../../components/MovieReviews/MovieReviews";
 import CustomNavLink from "../../components/NavLink/NavLink";
 import s from "./MovieDetailsPage.module.css";
 
@@ -51,10 +43,7 @@ function MovieDetailsPage() {
             </CustomNavLink>
           </nav>
         </ul>
-        <Routes>
-          <Route path="cast" element={<MovieCast movieId={movieId} />} />
-          <Route path="reviews" element={<MovieReviews movieId={movieId} />} />
-        </Routes>
+        <Outlet />
       </div>
     </div>
   );
